@@ -1,0 +1,65 @@
+---
+title: Factory function and constructor function
+description: explain how to use factory and constructor function to create a object will parameters.
+date: 2024-09-19
+tags: ['JavaScript', 'basic']
+published: false
+---
+
+In JavaScript, we have can define objects with literal value.
+Like code below.
+
+```js
+const student = {
+  name: 'john',
+  age: 24,
+  walk() {
+    console.log('john is walking')
+  }
+}
+```
+
+But, if we need to define many student in the same structure, this approach seems to be tedious.
+There are two ways to create object with specific params.
++ Factory function
++ Construct function
+
+Here are a simple example
+
+```js
+// Factory function
+// naming convention createXxxx()
+function createStudent(name, age, walking) {
+  return {
+    name,
+    age,
+    walking
+  } 
+}
+
+// Constructor function
+// naming convention Xxxx()
+function Student(name, age, walking) {
+  this.name = age;
+  this.age = age;
+  this.walking = walking;
+}
+
+const stu1 = createStudent('mike', 14, () => console.log('mike is walking'));
+
+// using `new` keyword to call constructor function 
+const stu2 = new Student('jason', 35, () => console.log('jason is walking'));
+
+console.log(`stu1: ${stu1}`);
+console.log(`stu2: ${stu2}`);
+```
+
+Run this code, you can see these two approaches works fine.
+
+Actually, you can choose either one.
++ Factory function is very straightfoward, and is easy to use composition.
++ Constructor function is a little bit complex to use.When using constructor function, you should use **new** keyword to create and bind **this** pointer to the constructor function, and the constructor function add property to this.
+Finally, it returns **this** object.It is useful when you use ES6 class syntax and OOP, also very important.
+
+To recap, both Factory and Construct are useful ways create objects.I highly recommend you to command them.
+`

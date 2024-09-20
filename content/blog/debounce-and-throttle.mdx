@@ -1,0 +1,111 @@
+---
+title: Debounce and throttle
+description: give a simlpe example of debounce and throttle, and a brief recap of their using scenarios
+date: 2024-09-19
+tags: ['JavaScript']
+published: true
+---
+
+# 1. Debounce
+Debounce is used when a function is called so frequently and make the app really slow.
+Using debounce can limit the funciton only be called after a certain amount of time has passed.
+
+Here is a example of debounce. 
+
+Down below is HTML file adding a button.
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>Document</title>
+  </head>
+  <body>
+    <div>
+      <button id="button">click me</button>
+    </div>
+    <script src="index.js"></script>
+  </body>
+</html>
+```
+
+
+
+```js {4} showLineNumbers
+function initApp() {
+  const button = document.querySelector('#button');
+  // button.addEventListener('click', onClick);
+  button.addEventListener('click', debounce(onClick, 500));
+}
+
+function onClick() {
+  console.log(`clicked`);
+}
+
+function debounce(fn, delay) {
+  let id;
+  console.log(`id: ${id} immediately loaded`);
+  return (...args) => {
+    console.log(`previous id ${id}`);
+    if (id) clearTimeout(id);
+    id = setTimeout(() => {
+      fn(...args);
+    }, delay);
+  };
+}
+
+document.addEventListener('DOMContentLoaded', initApp);
+```
+
+You can copy these code and click the button frequently, and see what happens.I set a long delay 
+so that the 'clicked' message will be logged after a long time.
+
+Let's inspect the debounce function in detail. It initialize a **id** variable and return a anonymous function.
+This anonymous function crete a **clousure** to define a static variable for the function.
+**id** is used to ensure fn just is called once during a duration time.
+
+So, if I pass **debouce(onClick, 2000)** when I click button many times within a delay time, the first call works, and the second one create a timesetter,
+the following call will trigger clearTimeout and be ignored.
+Finally, the second call will be excuted after delay.
+
+# 2. Throttle
+
+the example code is very similar to last one.The HTML is completely same.
+The js code just write a throttle function and call onClick with the throttle decorator function.
+Here is the code.
+
+```js
+function initApp() {
+  const button = document.querySelector('#button');
+  button.addEventListener('click', throttle(onClick, 2000));
+}
+
+function onClick() {
+  console.log(`clicked`);
+}
+
+function throttle(fn, delay) {
+  let lastTime = 0;
+  console.log(`throttle function init`);
+  return (...args) => {
+    let now = new Date();
+    if (now - lastTime < delay) {
+      return;
+    }
+    lastTime = now;
+    fn(...args);
+  };
+}
+
+document.addEventListener('DOMContentLoaded', initApp);
+```
+
+The throttle function is much easier to read, just disable the function call when calling interval is less than the setting time.
+
+So, what the different between debounce and throttle?
+
+You can click the button mutiple times within the delay time.You can see the **'clicked'** message will be logged only one time, all calls besides the first are ignored.
