@@ -6,6 +6,8 @@ tags: ['JavaScript', 'basic']
 published: false
 ---
 
+# Factory Function and Constructor Function
+
 In JavaScript, we have can define objects with literal value.
 Like code below.
 
@@ -19,12 +21,12 @@ const student = {
 }
 ```
 
-But, if we need to define many student in the same structure, this approach seems to be tedious.
-There are two ways to create object with specific params.
+However, if we need to define many objects with the same structure, this approach can be tedious.
+There are two comman ways to create object with specific params.
 + Factory function
 + Construct function
 
-Here are a simple example
+Here's a simple example
 
 ```js
 // Factory function
@@ -54,12 +56,19 @@ console.log(`stu1: ${stu1}`);
 console.log(`stu2: ${stu2}`);
 ```
 
-Run this code, you can see these two approaches works fine.
+When you run this code, you can see both approaches works fine.
 
-Actually, you can choose either one.
-+ Factory function is very straightfoward, and is easy to use composition.
-+ Constructor function is a little bit complex to use.When using constructor function, you should use **new** keyword to create and bind **this** pointer to the constructor function, and the constructor function add property to this.
-Finally, it returns **this** object.It is useful when you use ES6 class syntax and OOP, also very important.
+# Choosing between Factory and Constructor Function
 
-To recap, both Factory and Construct are useful ways create objects.I highly recommend you to command them.
-`
+You can choose either one depends on your needs:
++ Factory function is very straightfoward, and is easy to work with object composition.
++ Constructor function is a little bit complex to use. When you use **new Student()** the following things happens.
+1. a new empty object is created
+2. the object is binded with **this** pointer
+3. the Student function is called 
+4. the object is assigned to the *stu* variable
+To fully understand Constructor function, it's very necessary to understand the concept of **this**.
+The contructor function is also widely used in ES6 class syntax.
+
+# Recap
+Both factory and constructor functions are useful ways to create objects. I recommend learning both, as they provide flexibility in how you design object creation in your code.

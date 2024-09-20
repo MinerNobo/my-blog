@@ -36,14 +36,15 @@ export default async function AboutPage() {
           </p>
         </div>
         <p className='text-muted-foreground text-lg py-4'>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-          do eiusmod tempor incididunt ut labore et dolore magna
-          aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-          ullamco laboris nisi ut aliquip ex ea commodo consequat.
-          Duis aute irure dolor in reprehenderit in voluptate velit
-          esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-          occaecat cupidatat non proident, sunt in culpa qui officia
-          deserunt mollit anim id est laborum
+          Hey everyone, I'm Moruka. I'm currently an undergraduate
+          majoring in Computer Science, and starting in December 2024,
+          I'll be working as a junior JavaScript engineer. I have a
+          solid understanding of HTML, CSS, JavaScript, and experience
+          with frameworks. My goal is to improve my coding skills and
+          secure a job in the field, so I'll be writing blogs to
+          document my growth. The content will focus primarily on
+          frontend technologies and Node.js. I hope you enjoy the
+          content and find it helpful!
         </p>
       </div>
     </div>
