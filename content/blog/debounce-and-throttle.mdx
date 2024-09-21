@@ -1,56 +1,47 @@
 ---
-title: Debounce and throttle
-description: give a simlpe example of debounce and throttle, and a brief recap of their using scenarios
-date: 2024-09-19
-tags: ['JavaScript']
-published: false
+title: Debounce and Throttle
+description:In this post, we will explore two important techniques in JavaScript: debounce and throttle. These are useful for optimizing the performance of functions that are triggered frequently, such as scroll, resize, or button click events. We will provide simple examples of both and explain when to use them.
+date: 2024-09-21
+tags: ['JavaScript', 'basic']
+published: true
 ---
+## 1. Debounce
+Debounce is useful when a function is called frequently, potentially slowing down your app. With debounce, the function is only executed after a specified amount of time has passed since the last time it was invoked.
 
-# 1. Debounce
-Debounce is used when a function is called so frequently and make the app really slow.
-Using debounce can limit the funciton only be called after a certain amount of time has passed.
+Here's an example of how debounce works.
 
-Here is a example of debounce. 
+Below is the HTML code for a button:
 
-Down below is HTML file adding a button.
 ```html
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0"
-    />
-    <title>Document</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Debounce Example</title>
   </head>
   <body>
     <div>
-      <button id="button">click me</button>
+      <button id="button">Click me</button>
     </div>
     <script src="index.js"></script>
   </body>
 </html>
 ```
-
-
-
-```js {4} showLineNumbers
+And here’s the JavaScript:
+```js
 function initApp() {
   const button = document.querySelector('#button');
-  // button.addEventListener('click', onClick);
-  button.addEventListener('click', debounce(onClick, 500));
+  button.addEventListener('click', debounce(onClick, 2000));
 }
 
 function onClick() {
-  console.log(`clicked`);
+  console.log('clicked');
 }
 
 function debounce(fn, delay) {
   let id;
-  console.log(`id: ${id} immediately loaded`);
   return (...args) => {
-    console.log(`previous id ${id}`);
     if (id) clearTimeout(id);
     id = setTimeout(() => {
       fn(...args);
@@ -60,23 +51,20 @@ function debounce(fn, delay) {
 
 document.addEventListener('DOMContentLoaded', initApp);
 ```
+### Explanation:
+In this example, if you click the button multiple times, only the last click within the delay period (500ms) will trigger the onClick function.
 
-You can copy these code and click the button frequently, and see what happens.I set a long delay 
-so that the 'clicked' message will be logged after a long time.
+Let’s break down the debounce function:
 
-Let's inspect the debounce function in detail. It initialize a **id** variable and return a anonymous function.
-This anonymous function crete a **clousure** to define a static variable for the function.
-**id** is used to ensure fn just is called once during a duration time.
+It initializes an id variable and returns an anonymous function.
+Every time the anonymous function is called, it clears the previous timeout (if one exists) and sets a new timeout.
+This ensures that the function fn is only executed once after the delay, no matter how many times it is called during that period.
+If you pass debounce(onClick, 2000) and click the button multiple times within 2 seconds, only the last call will execute after the delay.
 
-So, if I pass **debouce(onClick, 2000)** when I click button many times within a delay time, the first call works, and the second one create a timesetter,
-the following call will trigger clearTimeout and be ignored.
-Finally, the second call will be excuted after delay.
+## 2. Throttle
+Throttle is used when you want to ensure that a function is called at most once during a specified time interval. Unlike debounce, which waits for inactivity, throttle ensures that the function is executed at regular intervals, no matter how many times the event is triggered.
 
-# 2. Throttle
-
-the example code is very similar to last one.The HTML is completely same.
-The js code just write a throttle function and call onClick with the throttle decorator function.
-Here is the code.
+Here’s an example:
 
 ```js
 function initApp() {
@@ -85,17 +73,14 @@ function initApp() {
 }
 
 function onClick() {
-  console.log(`clicked`);
+  console.log('clicked');
 }
 
 function throttle(fn, delay) {
   let lastTime = 0;
-  console.log(`throttle function init`);
   return (...args) => {
-    let now = new Date();
-    if (now - lastTime < delay) {
-      return;
-    }
+    let now = new Date().getTime();
+    if (now - lastTime < delay) return;
     lastTime = now;
     fn(...args);
   };
@@ -103,9 +88,23 @@ function throttle(fn, delay) {
 
 document.addEventListener('DOMContentLoaded', initApp);
 ```
+### Explanation:
+In the throttle example, clicking the button multiple times within 2 seconds will only trigger the onClick function once.
 
-The throttle function is much easier to read, just disable the function call when calling interval is less than the setting time.
+Here’s how the throttle function works:
 
-So, what the different between debounce and throttle?
+It stores the last time the function was executed.
+When the event occurs, it checks if the time since the last function call is less than the specified delay (in this case, 2000ms). If it is, the function is not called. Otherwise, it updates the lastTime and executes the function.
 
-You can click the button mutiple times within the delay time.You can see the **'clicked'** message will be logged only one time, all calls besides the first are ignored.
+## When to Use Debounce and Throttle
+Debounce is ideal for situations where you want to wait until a user stops triggering an event, such as:
++ Search input fields (triggering a search when the user stops typing)
++ Resizing a window (only executing the resize handler when the user finishes resizing)
+
+Throttle is useful when you want to control the rate at which a function is triggered, for example:
++ Scroll events (executing a function every X milliseconds during a scroll)
++ Button clicks that trigger a costly operation like API requests (limiting how often the request is sent)
+
+## Recap:
+Debounce ensures the function is only called after a delay from the last event.
+Throttle ensures the function is called at most once per delay interval.
